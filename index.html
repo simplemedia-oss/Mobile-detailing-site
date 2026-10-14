@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080909">
+<title>Your Car. Fresh Again. | Mobile Detailing</title>
+<style>
+:root { color-scheme: dark; --ink:#f8f7f3; --paper:#080909; --panel:#171a1b; --muted:#b6b6bb; --line:#44494a; --teal:#00b9b1; --pink:#f2397b; --orange:#ff5b22; }
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { margin:0; background:var(--paper); color:var(--ink); font-family:Arial,Helvetica,sans-serif; }
+#app { width:100%; min-height:100vh; background:var(--paper); border-radius:0; }
+.wrap { max-width:1000px; margin:0 auto; padding:22px 20px 46px; }
+.colorbar { display:grid; grid-template-columns:1fr 1fr 1fr; height:10px; margin-bottom:18px; }
+.colorbar span:nth-child(1){background:var(--teal)} .colorbar span:nth-child(2){background:var(--pink)} .colorbar span:nth-child(3){background:var(--orange)}
+.hero { min-height:290px; border:5px solid var(--ink); position:relative; overflow:hidden; background:linear-gradient(90deg,rgba(0,0,0,.88),rgba(0,0,0,.46) 58%,rgba(0,0,0,.12)), radial-gradient(ellipse at 75% 45%,#657078 0,#22272a 35%,#080909 72%); display:flex; align-items:flex-end; padding:clamp(22px,5vw,48px); color:#fff; }
+.hero.desktop-hero { min-height:clamp(420px,58vw,680px); padding:clamp(28px,6vw,72px); background:linear-gradient(90deg,rgba(0,0,0,.88),rgba(0,0,0,.5) 54%,rgba(0,0,0,.18)),radial-gradient(ellipse at 75% 45%,#657078 0,#22272a 35%,#080909 72%); }
+.hero.desktop-hero .car-shape { width:64%; height:78%; top:8%; right:-1%; }
+.hero.desktop-hero h1 { font-size:clamp(3.8rem,9vw,8rem); }
+.hero.mobile-hq-hero { min-height:290px; }
+.hero.street-hero { background:linear-gradient(90deg,rgba(0,0,0,.91),rgba(0,0,0,.53) 54%,rgba(0,0,0,.12)),radial-gradient(ellipse at 74% 42%,#e05b33 0,#48252b 24%,#101c22 52%,#050606 78%); }
+.street-hero:after { content:"SAN ANTONIO • AFTER DARK"; position:absolute; right:16px; top:16px; color:var(--orange); border:1px solid var(--orange); padding:8px 10px; font-size:.72rem; font-weight:900; letter-spacing:.12em; }
+.street-hero .car-shape { filter:drop-shadow(0 0 12px rgba(0,185,177,.5)); }
+.edition-mobile .hero { min-height:260px; }
+.edition-street .hero { min-height:clamp(320px,48vw,520px); }
+.qr-panel { display:grid; grid-template-columns:auto 1fr; align-items:center; gap:18px; margin-top:20px; padding:18px; border:2px solid var(--teal); background:#111414; }
+.qr-code { display:grid; place-items:center; width:112px; height:112px; background:#fff; padding:7px; }
+.qr-code svg { width:100%; height:100%; }
+.qr-panel h2 { margin:0 0 7px; color:var(--teal); font-family:Impact,'Arial Narrow',Arial,sans-serif; font-size:1.5rem; text-transform:uppercase; }
+.qr-panel p { margin:0; color:var(--muted); line-height:1.4; font-size:.9rem; }
+.campaign-tag { display:none; margin:0 0 12px; padding:7px 10px; width:max-content; max-width:100%; color:#050505; background:var(--orange); font-weight:900; font-size:.8rem; letter-spacing:.08em; text-transform:uppercase; }
+.driver-mode .campaign-tag { display:block; }
+.driver-mode .driver { border:2px solid var(--orange); padding:14px; background:#171a1b; }
+.hero:before { content:""; position:absolute; inset:0; background:linear-gradient(135deg,transparent 0 45%,rgba(0,185,177,.16) 45.2%,transparent 46%),linear-gradient(0deg,rgba(0,0,0,.4),transparent 65%); }
+.car-shape { position:absolute; right:-2%; top:16%; width:57%; height:65%; opacity:.9; }
+.hero-copy { position:relative; max-width:620px; z-index:1; }
+.eyebrow { color:var(--teal); font-weight:900; letter-spacing:.18em; font-size:.75rem; text-transform:uppercase; }
+h1 { font-family:Impact,'Arial Narrow',Arial,sans-serif; text-transform:uppercase; font-size:clamp(2.8rem,8vw,5.8rem); line-height:.86; letter-spacing:-.035em; margin:12px 0; }
+.hero p { font-size:clamp(1rem,2.6vw,1.35rem); font-weight:700; margin:16px 0 0; }
+.facts { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:10px 14px; padding:17px 4px 22px; text-align:center; font-size:clamp(.88rem,2.6vw,1.1rem); font-weight:800; }
+.dot { color:var(--pink); }
+.price-card { background:var(--panel); border:5px solid var(--ink); padding:clamp(18px,4vw,30px); }
+.price-head { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+.price-head h2 { font-family:Impact,'Arial Narrow',Arial,sans-serif; text-transform:uppercase; font-size:clamp(1.8rem,5.2vw,3.1rem); line-height:.95; margin:0; }
+.price { font-family:Impact,'Arial Narrow',Arial,sans-serif; font-size:clamp(3.2rem,9vw,5.7rem); line-height:1; color:var(--teal); text-shadow:4px 4px 0 var(--ink); white-space:nowrap; }
+.rule { border:0; border-top:2px solid var(--line); margin:18px 0; }
+.deposit { font-size:clamp(1rem,3vw,1.35rem); line-height:1.5; font-weight:800; margin:0; }
+.payment-actions { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:18px; }
+.payment-link { display:flex; flex-direction:column; justify-content:center; gap:7px; min-height:94px; padding:16px; background:#080808; color:#fff; text-decoration:none; border:2px solid var(--teal); box-shadow:6px 6px 0 var(--teal); }
+.payment-link.balance { border-color:var(--pink); box-shadow:6px 6px 0 var(--pink); }
+.payment-link strong { font-family:Impact,'Arial Narrow',Arial,sans-serif; text-transform:uppercase; font-size:clamp(1.1rem,3vw,1.6rem); }
+.payment-link span { font-size:.9rem; line-height:1.35; }
+.payment-note { margin:14px 0 0; color:var(--muted); font-size:.85rem; line-height:1.5; }
+.extras { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px; }
+.extra { background:var(--panel); border:2px solid var(--line); padding:18px; min-height:145px; }
+.extra.orange { border-top:9px solid var(--orange); } .extra.pink { border-top:9px solid var(--pink); }
+.extra-top { display:flex; justify-content:space-between; gap:8px; align-items:baseline; }
+.extra h3 { margin:0; font-family:Impact,'Arial Narrow',Arial,sans-serif; font-size:clamp(1.3rem,3.7vw,2rem); line-height:1; text-transform:uppercase; }
+.extra strong { font-family:Impact,'Arial Narrow',Arial,sans-serif; font-size:clamp(1.5rem,4vw,2.25rem); white-space:nowrap; }
+.orange strong { color:var(--orange); } .pink strong { color:var(--pink); }
+.extra p { color:var(--muted); margin:12px 0 0; font-size:1rem; line-height:1.35; }
+.actions { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:18px; }
+.action { min-height:86px; display:flex; align-items:center; justify-content:center; gap:12px; background:#080808; color:#fff; border:0; padding:16px; text-decoration:none; text-transform:uppercase; font-family:Impact,'Arial Narrow',Arial,sans-serif; font-size:clamp(1.25rem,4.5vw,2.2rem); line-height:1; box-shadow:8px 8px 0 var(--teal); cursor:pointer; transition:transform .15s ease; }
+.action:nth-child(2){box-shadow:8px 8px 0 var(--pink)} .action:hover{transform:translateY(-2px)} .action:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+.action svg { width:26px; height:26px; flex:none; }
+.driver { text-align:center; margin:22px 0 0; font-weight:800; font-size:clamp(.95rem,2.8vw,1.2rem); }
+.driver span { color:var(--muted); }
+.impulse { margin-top:18px; padding:clamp(18px,4vw,28px); border:2px solid var(--pink); border-left:8px solid var(--orange); background:linear-gradient(115deg,#171a1b,#0d1010); }
+.impulse h2 { margin:0 0 8px; color:var(--teal); font-family:Impact,'Arial Narrow',Arial,sans-serif; font-size:clamp(1.8rem,5vw,2.8rem); line-height:.98; text-transform:uppercase; }
+.impulse p { margin:0; color:var(--muted); line-height:1.5; }
+.impulse-points { display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 20px; }
+.impulse-points span { padding:8px 10px; border:1px solid var(--line); background:#080909; font-size:.9rem; font-weight:800; }
+.cta-primary { display:flex; justify-content:center; align-items:center; min-height:58px; width:100%; padding:15px 18px; background:var(--teal); color:#050505; text-align:center; text-decoration:none; font-weight:900; text-transform:uppercase; box-shadow:6px 6px 0 var(--pink); }
+.urgency-note { margin-top:12px!important; font-size:.82rem; }
+.booking { margin-top:34px; padding:clamp(16px,4vw,24px); background:var(--panel); border:2px solid var(--line); border-top:6px solid var(--teal); scroll-margin-top:16px; }
+.booking h2 { margin:0 0 8px; font-family:Impact,'Arial Narrow',Arial,sans-serif; text-transform:uppercase; font-size:2rem; }
+.booking > p { margin:0 0 20px; color:var(--muted); line-height:1.5; }
+form { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.field { display:flex; flex-direction:column; gap:7px; } .field.full { grid-column:1/-1; }
+label { font-weight:800; font-size:.9rem; }
+input,select,textarea { width:100%; min-height:50px; border:1px solid var(--line); border-radius:4px; background:var(--paper); color:var(--ink); padding:13px; font:inherit; }
+textarea { min-height:86px; resize:vertical; }
+.submit { grid-column:1/-1; min-height:54px; background:var(--teal); color:#050505; border:0; padding:15px; font-weight:900; text-transform:uppercase; font-size:1rem; cursor:pointer; box-shadow:5px 5px 0 var(--pink); }
+.note { color:var(--muted); font-size:.82rem; line-height:1.5; }
+footer { text-align:center; padding:26px 10px 0; color:var(--muted); font-size:.9rem; }
+.modal-backdrop { position:fixed; inset:0; z-index:10; display:none; align-items:center; justify-content:center; padding:18px; background:rgba(0,0,0,.7); }
+.modal-backdrop.open { display:flex; }
+.modal { width:min(480px,100%); background:var(--panel); color:var(--ink); border:3px solid var(--teal); padding:24px; }
+.modal h2 { margin:0 0 8px; text-transform:uppercase; } .modal p { line-height:1.5; color:var(--muted); }
+.modal-actions { display:flex; gap:10px; flex-wrap:wrap; } .modal button { border:0; padding:12px 16px; font-weight:900; cursor:pointer; } .primary { background:var(--teal); color:#050505; } .secondary { background:var(--line); color:var(--ink); }
+@media(max-width:600px){ .wrap{padding:12px 12px 30px} .colorbar{margin-bottom:12px} .payment-actions{grid-template-columns:1fr} .hero{min-height:250px;padding:20px;border-width:3px} .car-shape{right:-20%;width:78%;opacity:.65} .facts{gap:8px 10px;padding:14px 2px 18px} .price-card{padding:17px 15px;border-width:3px} .price-head{align-items:flex-start;flex-wrap:wrap} .price{font-size:3.5rem} .payment-link{min-height:76px;box-shadow:4px 4px 0 var(--teal)} .payment-link.balance{box-shadow:4px 4px 0 var(--pink)} .extras{grid-template-columns:1fr;gap:10px} .extra{padding:15px;min-height:0} .actions{grid-template-columns:1fr;gap:12px} .action{min-height:58px;padding:12px;gap:8px;box-shadow:5px 5px 0 var(--teal)} .action:nth-child(2){box-shadow:5px 5px 0 var(--pink)} .booking{margin-top:24px} form{grid-template-columns:1fr} .field.full,.submit{grid-column:auto} label{font-size:1rem} input,select,textarea{font-size:16px} .qr-panel{grid-template-columns:1fr;text-align:center;justify-items:center} }
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app">
+<main class="wrap">
+<div class="colorbar" aria-hidden="true"><span></span><span></span><span></span></div>
+<section class="hero desktop-hero" id="hero" aria-labelledby="hero-title">
+<svg class="car-shape" viewBox="0 0 600 260" role="img" aria-label="Stylized dark pickup truck illustration"><defs><linearGradient id="body" x1="0" x2="1"><stop offset="0" stop-color="#101415"/><stop offset=".5" stop-color="#444b4d"/><stop offset="1" stop-color="#0a0b0b"/></linearGradient></defs><path d="M38 157 L70 112 Q83 94 122 90 L245 81 Q270 82 291 108 L334 132 L494 136 Q526 139 544 163 L554 190 L35 190 Z" fill="url(#body)" stroke="#777f80" stroke-width="3"/><path d="M132 99 L238 92 Q258 93 276 116 L290 132 L99 132 Z" fill="#182327" stroke="#7b8587" stroke-width="3"/><path d="M282 118 L337 139 L465 143 L464 174 L303 174 Z" fill="#202627" stroke="#646b6d" stroke-width="2"/><path d="M38 158 L70 151 L91 158 L90 169 L35 171 Z" fill="#f5f4df"/><path d="M495 151 L532 159 L540 171 L497 169 Z" fill="#ff5b22"/><circle cx="139" cy="188" r="39" fill="#050606" stroke="#656a6b" stroke-width="5"/><circle cx="139" cy="188" r="20" fill="#292e30" stroke="#9ba0a0" stroke-width="4"/><circle cx="449" cy="188" r="39" fill="#050606" stroke="#656a6b" stroke-width="5"/><circle cx="449" cy="188" r="20" fill="#292e30" stroke="#9ba0a0" stroke-width="4"/><path d="M12 208 L570 208" stroke="#00b9b1" stroke-width="3" opacity=".75"/></svg>
+<div class="hero-copy"><div class="eyebrow">Mobile detailing · San Antonio</div><div class="campaign-tag" id="campaign-tag">Driver clean-up offer</div><h1 id="hero-title">Your car.<br>Fresh again.</h1><p id="hero-subtitle">Mobile detailing at your place.</p></div>
+</section>
+<div class="facts"><span>We come to you</span><span class="dot">●</span><span>About 2 hours</span><span class="dot">●</span><span>SA + 50 miles</span></div>
+<section class="impulse" aria-labelledby="quick-book-title"><div class="eyebrow">Easy booking · No pressure</div><h2 id="quick-book-title">Get your clean on the calendar.</h2><p>Choose your service, tell us where to meet you, and request your preferred date. A $95 deposit holds your requested full-detail date once we confirm availability.</p><div class="impulse-points"><span>✓ We come to you</span><span>✓ Clear upfront price</span><span>✓ Request takes a minute</span></div><a class="cta-primary" href="#booking">Book my detail — from $75 ↓</a><p class="urgency-note">No surprise countdowns or fake “last chance” claims. Your appointment is confirmed only after we reply.</p></section>
+<section class="price-card" aria-labelledby="main-service"><div class="price-head"><h2 id="main-service">Full Interior<br>+ Exterior</h2><div class="price">$185</div></div><hr class="rule"><p class="deposit">$95 deposit holds your date.<br>$90 balance due when the job is complete.</p><div class="payment-actions" aria-label="Square payment options"><a class="payment-link" href="https://square.link/u/cy1cUJZP" target="_blank" rel="noopener noreferrer"><strong>Pay $95 Deposit</strong><span>Open secure Square checkout ↗</span></a><a class="payment-link balance" href="https://square.link/u/cy1cUJZP" target="_blank" rel="noopener noreferrer"><strong>Pay $90 Balance</strong><span>Open secure Square checkout ↗</span></a></div><p class="payment-note"><strong>Payment link note:</strong> Both buttons currently use the same Square link supplied by the business. Confirm the amount shown at checkout before paying. If Square has a fixed amount on this link, create a separate $95 deposit link and $90 balance link before accepting customer payments. Payments are not verified by this website.</p></section>
+<section class="extras" aria-label="Additional services"><article class="extra orange"><div class="extra-top"><h3>Quick Touch-Up</h3><strong>$75</strong></div><p>A fast clean-up between full details.</p></article><article class="extra pink"><div class="extra-top"><h3>Interior Extra</h3><strong>FREE</strong></div><p>Fragrance bomb with every full detail.</p></article></section>
+<section class="actions" aria-label="Contact options"><a class="action" id="call-link" href="tel:"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 006.6 6.6l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.32.57 3.58.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.61 21 3 13.39 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.26.2 2.46.57 3.58a1 1 0 01-.25 1.02l-2.22 2.2z"/></svg>Call to book</a><a class="action" id="text-link" href="#booking"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 3h16a2 2 0 012 2v12a2 2 0 01-2 2H8l-5 3V5a2 2 0 012-2zm2 5v2h12V8H6zm0 4v2h12v-2H6z"/></svg>Text to book</a></section>
+<p class="driver" id="driver-offer">Uber/Lyft/DoorDash driver? <span>Ask about the driver rate.</span></p>
+<section class="booking" id="booking"><h2>Book in a few steps</h2><div class="facts" aria-label="Booking steps"><span>1. Pick a service</span><span class="dot">●</span><span>2. Choose date + location</span><span class="dot">●</span><span>3. Pay deposit</span></div><hr class="rule"><h2>Request your clean</h2><p>Just a few details and you're on your way. Choose your service, preferred date, and location. We'll reply to confirm availability before you pay a deposit.</p>
+<form id="booking-form"><div class="field"><label for="customer-name">Your name</label><input id="customer-name" name="name" autocomplete="name" required placeholder="Name"></div><div class="field"><label for="customer-phone">Phone number</label><input id="customer-phone" name="phone" type="tel" autocomplete="tel" required placeholder="(210) 555-0123"></div><div class="field"><label for="service">Service</label><select id="service" name="service"><option>Full Interior + Exterior — $185</option><option>Quick Touch-Up — $75</option></select></div><div class="field"><label for="date">Preferred date</label><input id="date" name="date" type="date" required></div><div class="field full"><label for="location">Service address or area</label><input id="location" name="location" autocomplete="street-address" required placeholder="Neighborhood or address"></div><div class="field full"><label for="notes">Vehicle and notes (optional)</label><textarea id="notes" name="notes" placeholder="Vehicle make/model, condition, or questions"></textarea></div><button class="submit" type="submit">Prepare booking text</button></form>
+<p class="note">Booking requests are not confirmed until the business replies. Add your real phone number before publishing this page. Square checkout opens in a separate page. This website does not receive payment status or verify whether a payment succeeded.</p></section>
+<footer>Mobile detailing that comes to you · San Antonio + 50 miles</footer>
+<section class="booking" id="publish-help" aria-labelledby="publish-title"><h2 id="publish-title">Ready to put this online?</h2><p>This preview is not yet a public website. You can publish it using a free hosting account; no coding experience is needed if you follow the host's upload steps.</p><p><a class="action" href="https://github.com/" target="_blank" rel="noopener noreferrer">Open free hosting setup ↗</a></p><p class="note">Before sharing with customers, replace the sample contact details and make sure the Square links charge the correct amounts. Hosting can be free; card processing fees may still apply.</p></section>
+<section class="qr-panel" aria-label="Share booking page"><div class="qr-code" id="booking-qr" aria-label="Booking QR code"></div><div><h2>Scan to book</h2><p>One consistent QR design for flyers, business cards, and social posts. It will point to this shared booking page when the site is published.</p><p class="note" id="qr-status">Preview mode: QR will be generated from the published site address.</p></div></section>
+</main>
+</div>
+<div class="modal-backdrop" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="modal"><h2 id="modal-title">Booking message ready</h2><p id="modal-message"></p><div class="modal-actions"><button class="primary" id="copy-message">Copy message</button><button class="secondary" id="close-modal">Close</button></div><p class="note" id="copy-status" aria-live="polite"></p></div></div>
+<script>
+(function(){
+const form=document.getElementById('booking-form');
+const modal=document.getElementById('modal');
+const messageEl=document.getElementById('modal-message');
+let bookingMessage='';
+const dateInput=document.getElementById('date');
+const params=new URLSearchParams(window.location.search);
+const edition=params.get('edition');
+if(edition==='mobile'){
+  document.body.classList.add('edition-mobile');
+  document.querySelector('.hero').classList.remove('desktop-hero');
+  document.getElementById('hero-title').innerHTML='Your car.<br>Fresh again.';
+}else if(edition==='street'){
+  document.body.classList.add('edition-street');
+  document.querySelector('.hero').classList.remove('desktop-hero');
+  document.querySelector('.hero').classList.add('street-hero');
+  document.getElementById('hero-title').innerHTML='Own the night.<br>Ride fresh.';
+  document.getElementById('hero-subtitle').textContent='San Antonio night-drive energy. Professional mobile detailing.';
+  document.querySelector('.eyebrow').textContent='DETAIL HQ · AFTER DARK';
+}
+if(params.get('market')==='drivers'){
+  document.body.classList.add('driver-mode');
+  document.getElementById('campaign-tag').textContent='Made for Uber · Lyft · delivery drivers';
+  document.getElementById('hero-title').innerHTML='Back on the road.<br>Looking fresh.';
+  document.getElementById('hero-subtitle').textContent='A clean ride helps you show up ready for your next trip.';
+  document.getElementById('driver-offer').innerHTML='Driving Uber, Lyft, or delivery? <span>Request the driver rate when you book.</span>';
+}else if(params.get('market')==='standard'){
+  document.getElementById('hero-title').innerHTML='Your car.<br>Fresh again.';
+  document.getElementById('hero-subtitle').textContent='Mobile detailing at your place.';
+}
+if(params.get('layout')==='mobile') document.querySelector('.hero').classList.remove('desktop-hero');
+const qrRoot=document.getElementById('booking-qr');
+const qrStatus=document.getElementById('qr-status');
+if(/^https?:$/.test(window.location.protocol) && window.location.hostname!=='localhost'){
+  const target=window.location.origin+window.location.pathname+'#booking';
+  const qr=document.createElement('img');
+  qr.alt='QR code linking to the shared booking form';
+  qr.width=98; qr.height=98;
+  qr.src='https://api.qrserver.com/v1/create-qr-code/?size=196x196&data='+encodeURIComponent(target);
+  qrRoot.appendChild(qr);
+  qrStatus.textContent='This QR points to the shared booking section. Keep this same QR artwork for every campaign edition.';
+}else{
+  qrRoot.innerHTML='<svg viewBox="0 0 21 21" role="img" aria-label="QR preview placeholder"><rect width="21" height="21" fill="white"/><g fill="#080909"><path d="M1 1h7v7H1zM2 2v5h5V2zM3 3h3v3H3zM13 1h7v7h-7zM14 2v5h5V2zM15 3h3v3h-3zM1 13h7v7H1zM2 14v5h5v-5zM3 15h3v3H3zM10 1h2v2h-2zM9 5h3v2H9zM10 9h2v2h-2zM13 10h2v3h-2zM17 9h3v2h-3zM9 13h2v2H9zM12 14h2v2h-2zM15 13h2v2h-2zM10 17h2v3h-2zM14 18h2v2h-2zM18 15h2v3h-2z"/></g></svg>';
+  qrStatus.textContent='This is a visual placeholder until the site has a public URL. After publishing, use one final QR code for all editions.';
+}
+const now=new Date();
+const localDate=new Date(now.getTime()-now.getTimezoneOffset()*60000).toISOString().slice(0,10);
+dateInput.min=localDate;
+document.getElementById('text-link').addEventListener('click',function(e){e.preventDefault();document.getElementById('booking').scrollIntoView({behavior:'smooth'});document.getElementById('customer-name').focus({preventScroll:true});});
+document.getElementById('call-link').addEventListener('click',function(e){e.preventDefault();document.getElementById('booking').scrollIntoView({behavior:'smooth'});alert('Add your business phone number to activate direct calling. You can still request a booking using the form below.');});
+form.addEventListener('submit',function(e){e.preventDefault();const d=new FormData(form);bookingMessage='Hi! I would like to request a mobile detailing booking.\nName: '+d.get('name')+'\nPhone: '+d.get('phone')+'\nService: '+d.get('service')+'\nPreferred date: '+d.get('date')+'\nLocation: '+d.get('location')+'\nVehicle / notes: '+(d.get('notes')||'None')+'\nPlease let me know if this date is available.';messageEl.textContent=bookingMessage;document.getElementById('copy-status').textContent='';modal.classList.add('open');document.getElementById('copy-message').focus();});
+document.getElementById('copy-message').addEventListener('click',async function(){try{await navigator.clipboard.writeText(bookingMessage);document.getElementById('copy-status').textContent='Copied. Paste this message into your text app.';}catch(err){const ta=document.createElement('textarea');ta.value=bookingMessage;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();const ok=document.execCommand('copy');ta.remove();document.getElementById('copy-status').textContent=ok?'Copied. Paste this message into your text app.':'Copy unavailable. Select and copy the message above.';}});
+document.getElementById('close-modal').addEventListener('click',()=>modal.classList.remove('open'));
+modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open')});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remove('open')});
+})();
+</script>
+</body>
+</html>
